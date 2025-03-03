@@ -14,7 +14,8 @@ class CarManager {
     deleteCar(id) {
       const index = this.cars.findIndex(car => car.id === id);
       if (index !== -1) {
-        return this.cars.splice(index, 1)[0];
+        const deletedCar = this.cars.splice(index, 1)[0];
+        return deletedCar;
       }
       return false;
     }
