@@ -16,31 +16,41 @@ describe('CarManager', () => {
   });
 
   it('should delete a car by ID and return the deleted car', () => {
-    const car1 = carManager.addCar({ make: 'Honda', model: 'Civic' });
-    const car2 = carManager.addCar({ make: 'Ford', model: 'Mustang' });
+    const car1 = { make: 'Toyota', model: 'Camry' };
+    const car2 = { make: 'Honda', model: 'Civic' };
+    const addedCar1 = carManager.addCar(car1);
+    const addedCar2 = carManager.addCar(car2);
 
-    const deletedCar = carManager.deleteCar(car1.id);
-    expect(deletedCar).toEqual(car1);
-    expect(carManager.getCars()).not.toContain(car1);
-    expect(carManager.getCars()).toContain(car2);
+    const deletedCar = carManager.deleteCar(addedCar1.id);
+    expect(deletedCar).toEqual(addedCar1);
+    expect(carManager.getCars()).not.toContain(addedCar1);
+    expect(carManager.getCars()).toContain(addedCar2);
   });
 
   it('should return false when deleting a non-existing car', () => {
-    const deletedCar = carManager.deleteCar(999);
-    expect(deletedCar).toBe(false);
+    const car1 = { make: 'Toyota', model: 'Camry' };
+    const addedCar1 = carManager.addCar(car1);
+
+    const result = carManager.deleteCar(999);
+    expect(result).toBe(false);
+    expect(carManager.getCars()).toContain(addedCar1);
   });
 
   it('should update the array correctly after deletion', () => {
-    const car1 = carManager.addCar({ make: 'Chevrolet', model: 'Malibu' });
-    const car2 = carManager.addCar({ make: 'Nissan', model: 'Altima' });
-    const car3 = carManager.addCar({ make: 'BMW', model: '3 Series' });
+    const car1 = { make: 'Toyota', model: 'Camry' };
+    const car2 = { make: 'Honda', model: 'Civic' };
+    const car3 = { make: 'Ford', model: 'Mustang' };
 
-    carManager.deleteCar(car2.id);
+    const addedCar1 = carManager.addCar(car1);
+    const addedCar2 = carManager.addCar(car2);
+    const addedCar3 = carManager.addCar(car3);
 
-    const cars = carManager.getCars();
-    expect(cars).not.toContain(car2);
-    expect(cars).toContain(car1);
-    expect(cars).toContain(car3);
-    expect(cars.length).toBe(2);
+    carManager.deleteCar(addedCar2.id);
+
+    const remainingCars = carManager.getCars();
+    expect(remainingCars).not.toContain(addedCar2);
+    expect(remainingCars).toContain(addedCar1);
+    expect(remainingCars).toContain(addedCar3);
+    expect(remainingCars.length).toBe(2);
   });
 });
